@@ -1,5 +1,0 @@
-C:\Users\mathi\source\repos\FiestApp\FiestApp_API\obj\Debug\net8.0\FiestApp_API.csproj.AssemblyReference.cache
-C:\Users\mathi\source\repos\FiestApp\FiestApp_API\obj\Debug\net8.0\FiestApp_API.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\mathi\source\repos\FiestApp\FiestApp_API\obj\Debug\net8.0\FiestApp_API.AssemblyInfoInputs.cache
-C:\Users\mathi\source\repos\FiestApp\FiestApp_API\obj\Debug\net8.0\FiestApp_API.AssemblyInfo.cs
-C:\Users\mathi\source\repos\FiestApp\FiestApp_API\obj\Debug\net8.0\FiestApp_API.csproj.CoreCompileInputs.cache
