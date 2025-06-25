@@ -1,0 +1,5 @@
+C:\Users\mathi\source\repos\FiestApp\FiestApp_Infrastructure\obj\Debug\net8.0\FiestApp_Infrastructure.csproj.AssemblyReference.cache
+C:\Users\mathi\source\repos\FiestApp\FiestApp_Infrastructure\obj\Debug\net8.0\FiestApp_Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mathi\source\repos\FiestApp\FiestApp_Infrastructure\obj\Debug\net8.0\FiestApp_Infrastructure.AssemblyInfoInputs.cache
+C:\Users\mathi\source\repos\FiestApp\FiestApp_Infrastructure\obj\Debug\net8.0\FiestApp_Infrastructure.AssemblyInfo.cs
+C:\Users\mathi\source\repos\FiestApp\FiestApp_Infrastructure\obj\Debug\net8.0\FiestApp_Infrastructure.csproj.CoreCompileInputs.cache

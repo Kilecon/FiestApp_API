@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FiestApp_API": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
