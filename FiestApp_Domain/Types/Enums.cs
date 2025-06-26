@@ -2,7 +2,7 @@
 
 namespace FiestApp_Domain.Types;
 
-public class Enums
+public abstract class Enums
 {
     public enum Status
     {

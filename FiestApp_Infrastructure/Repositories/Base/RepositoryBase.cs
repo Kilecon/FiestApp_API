@@ -1,4 +1,4 @@
-﻿using FiestApp_Domain.Entities;
+﻿using FiestApp_Infrastructure.Documents;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -102,8 +102,8 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : DocumentBase
         if (entity == null)
             throw new ArgumentNullException(nameof(entity));
 
-        entity.CreatedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        entity.UpdatedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        entity.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        entity.UpdatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         await DbSet.AddAsync(entity, cancellationToken);
         await Context.SaveChangesAsync(cancellationToken);
@@ -116,8 +116,8 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : DocumentBase
 
         foreach (var entity in entities)
         {
-            entity.CreatedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            entity.UpdatedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            entity.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            entity.UpdatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         }
         var entityList = entities.ToList();
 
@@ -131,7 +131,7 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : DocumentBase
         if (entity == null)
             throw new ArgumentNullException(nameof(entity));
 
-        entity.UpdatedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        entity.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         DbSet.Update(entity);
         await Context.SaveChangesAsync(cancellationToken);
@@ -144,7 +144,7 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : DocumentBase
         {
             foreach (var entity in entities)
             {
-                entity.UpdatedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                entity.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             }
             DbSet.UpdateRange(entities);
             await Context.SaveChangesAsync(cancellationToken);

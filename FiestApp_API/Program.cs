@@ -1,4 +1,7 @@
 ﻿using FiestApp_Infrastructure;
+using FiestApp_Infrastructure.Documents;
+using FiestApp_Infrastructure.Repositories.Base;
+using FiestApp_Infrastructure.Repositories.UsersRepository;
 using FiestApp_Infrastructure.UnitsOfWork;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +41,7 @@ namespace FiestApp_API
 
             // Injection des dépendances
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IRepository<UserDocument>, UsersRepository>();
             // Ajoutez d'autres repositories ici
 
             // Configuration des services

@@ -1,4 +1,4 @@
-﻿using FiestApp_Domain.Entities;
+﻿using FiestApp_Infrastructure.Documents;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -25,7 +25,7 @@ public class ApplicationDbContext : DbContext
             entity.HasIndex(e => e.Username).IsUnique();
 
             // Configuration automatique des timestamps
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.CreatedAtUnixTimestamp).HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
 
         // Appliquer toutes les configurations dans l'assembly
@@ -41,7 +41,7 @@ public class ApplicationDbContext : DbContext
         {
             if (entry.State == EntityState.Modified)
             {
-                entry.Entity.UpdatedAt = DateTime.UtcNow.Ticks;
+                entry.Entity.UpdatedAtUnixTimestamp = DateTime.UtcNow.Ticks;
             }
         }
 

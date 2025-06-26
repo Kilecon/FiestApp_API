@@ -11,4 +11,3 @@ public class RideDocument : DocumentBase
     [StringLength(36, MinimumLength = 36)]
     public required string PassengerGuid { get; set; }
 }
-// Status to know if is arrived, later

@@ -8,7 +8,7 @@ public abstract class DocumentBase
     [StringLength(36, MinimumLength = 36)]
     public required string Guid { get; set; }
     [ConcurrencyCheck]
-    public long CreatedAt { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+    public long CreatedAtUnixTimestamp { get; set; }
     [ConcurrencyCheck]
-    public long UpdatedAt { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+    public long UpdatedAtUnixTimestamp { get; set; }
 }

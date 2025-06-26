@@ -2,10 +2,9 @@
 
 namespace FiestApp_Domain.Entities;
 
-public sealed class AccommodationEntity : EntityBase
+public sealed class InvitationEntity : EntityBase
 {
+    public required EntityId UserGuid { get; set; }
     public required EntityId EventGuid { get; set; }
-    public required EntityId HostGuid { get; set; }
-    public required EntityId GuestGuid { get; set; }
     public required Enums.Status Status { get; set; }
 }

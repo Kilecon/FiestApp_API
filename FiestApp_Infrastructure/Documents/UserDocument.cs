@@ -5,5 +5,5 @@ public class UserDocument : DocumentBase
 {
     public required string Username { get; set; }
     [ConcurrencyCheck]
-    public long LastLoginAtUnixTimestamp { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+    public long LastLoginAtUnixTimestamp { get; set; }
 }

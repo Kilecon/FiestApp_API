@@ -1,4 +1,4 @@
-﻿using FiestApp_Domain.Entities;
+﻿using FiestApp_Infrastructure.Documents;
 using FiestApp_Infrastructure.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,8 +1,10 @@
-﻿namespace FiestApp_Domain.Entities;
+﻿using FiestApp_Domain.Types;
+
+namespace FiestApp_Domain.Entities;
 
 public abstract class EntityBase
 {
-    public required string Guid { get; set; } = System.Guid.NewGuid().ToString();
-    public long CreatedAt { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-    public long UpdatedAt { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+    public required EntityId Guid { get; set; }
+    public long CreatedAtUnixTimestampUnixTimestamp { get; set; }
+    public long UpdatedAtUnixTimestamp { get; set; }
 }
