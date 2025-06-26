@@ -1,4 +1,5 @@
 ﻿using FiestApp_Infrastructure.Documents;
+using FiestApp_Infrastructure.Documents.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

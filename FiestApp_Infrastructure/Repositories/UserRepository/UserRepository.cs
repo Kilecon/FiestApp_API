@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FiestApp_Infrastructure.Repositories.UsersRepository
 {
-    public class UsersRepository : RepositoryBase<UserDocument>, IRepository<UserDocument>
+    public class UserRepository : RepositoryBase<UserDocument>, IUserRepository
     {
-        public UsersRepository(DbContext context) : base(context)
+        public UserRepository(DbContext context) : base(context)
         {
         }
     }

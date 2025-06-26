@@ -1,14 +1,19 @@
-﻿using System.Linq.Expressions;
+﻿using FiestApp_Infrastructure.Documents.Base;
+using System.Linq.Expressions;
 
 namespace FiestApp_Infrastructure.Repositories.Base;
 
-public interface IRepository<T> : IReadOnlyAccessor<T> where T : class
+public interface IRepository<T> : IReadOnlyAccessor<T> where T : DocumentBase
 {
-    Task InsertAsync(T entity, CancellationToken cancellationToken = default);
-    Task<IEnumerable<T>> InsertManyAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
-    Task UpdateAsync(T entity, CancellationToken cancellationToken = default);
+    Task InsertAsync(T doc, CancellationToken cancellationToken = default);
+    Task<IEnumerable<T>> InsertManyAsync(IEnumerable<T> docs, CancellationToken cancellationToken = default);
+    Task UpdateAsync(T doc, CancellationToken cancellationToken = default);
+    Task PartialUpdateAsync<TPartial>(TPartial partialDoc,
+        CancellationToken cancellationToken = default) where TPartial : T;
     Task UpdateManyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
-    Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
+    Task PartialUpdateManyAsync<TPartial>(IEnumerable<TPartial> partialDocs,
+    CancellationToken cancellationToken = default) where TPartial : T;
+    Task DeleteAsync(T doc, CancellationToken cancellationToken = default);
     Task DeleteByIdAsync(string guid, CancellationToken cancellationToken = default);
     Task DeleteManyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
 }

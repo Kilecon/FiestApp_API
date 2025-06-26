@@ -41,7 +41,7 @@ namespace FiestApp_API
 
             // Injection des dépendances
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IRepository<UserDocument>, UsersRepository>();
+            builder.Services.AddScoped<IRepository<UserDocument>, UserRepository>();
             // Ajoutez d'autres repositories ici
 
             // Configuration des services

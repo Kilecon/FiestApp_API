@@ -1,4 +1,5 @@
 ﻿
+using FiestApp_Domain.Entities.Base;
 using FiestApp_Domain.Types;
 
 namespace FiestApp_Domain.Entities;

@@ -11,4 +11,6 @@ public class PollDto : StatuedDto
     public required string Question { get; set; }
     [JsonPropertyName("poll_options")]
     public required IEnumerable<LightPollOptionDto> PollOptions { get; set; }
+    [JsonPropertyName("creation_date")]
+    public long CreatedAt { get; set; }
 }

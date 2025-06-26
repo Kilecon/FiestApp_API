@@ -13,9 +13,9 @@ public class EventDto : BaseDto
     [JsonPropertyName("location")]
     public required string Location { get; set; }
     [JsonPropertyName("latitude")]
-    public long Latitute { get; set; }
+    public decimal Latitute { get; set; }
     [JsonPropertyName("longitude")]
-    public long Longitude { get; set; }
+    public decimal Longitude { get; set; }
     [JsonPropertyName("date")]
     public long Date { get; set; }
     [JsonPropertyName("organazer")]

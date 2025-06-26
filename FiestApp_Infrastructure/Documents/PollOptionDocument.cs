@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FiestApp_Infrastructure.Documents.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace FiestApp_Infrastructure.Documents;
 
