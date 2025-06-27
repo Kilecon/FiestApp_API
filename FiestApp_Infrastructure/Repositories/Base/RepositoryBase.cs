@@ -96,7 +96,7 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : DocumentBase
 
     #region Write Operations
 
-    public virtual async Task InsertAsync(T doc, CancellationToken cancellationToken = default)
+    public virtual async Task<T?> InsertAsync(T doc, CancellationToken cancellationToken = default)
     {
         if (doc == null)
             throw new ArgumentNullException(nameof(doc));
@@ -106,6 +106,7 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : DocumentBase
 
         await _dbSet.AddAsync(doc, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
+        return await _dbSet.FindAsync(new object[] { doc.Guid }, cancellationToken: cancellationToken);
     }
 
     public virtual async Task<IEnumerable<T>> InsertManyAsync(IEnumerable<T> docs, CancellationToken cancellationToken = default)
@@ -125,7 +126,7 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : DocumentBase
         return docList;
     }
 
-    public virtual async Task UpdateAsync(T doc, CancellationToken cancellationToken = default)
+    public virtual async Task<T?> UpdateAsync(T doc, CancellationToken cancellationToken = default)
     {
         if (doc == null)
             throw new ArgumentNullException(nameof(doc));
@@ -134,6 +135,7 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : DocumentBase
 
         _dbSet.Update(doc);
         await _dbContext.SaveChangesAsync(cancellationToken);
+        return await _dbSet.FindAsync(new object[] { doc.Guid }, cancellationToken: cancellationToken);
     }
 
     public async Task PartialUpdateAsync<TPartial>(TPartial partialDoc,

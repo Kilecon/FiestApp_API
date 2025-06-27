@@ -35,6 +35,8 @@ public abstract class Enums
 
     public enum AlcoholConsumption
     {
+        [Description("NE")]
+        Never,
         [Description("OC")]
         Occasional,
 
@@ -48,7 +50,7 @@ public abstract class Enums
     }
     public static string GetDescription(Enum value)
     {
-        FieldInfo fi = value.GetType().GetField(value.ToString());
+        FieldInfo? fi = value.GetType().GetField(value.ToString());
 
         DescriptionAttribute[] attributes = (DescriptionAttribute[])fi!.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
@@ -56,5 +58,20 @@ public abstract class Enums
             return attributes[0].Description;
         else
             return value.ToString();
+    }
+
+    public static T GetEnumValueFromDescription<T>(string? description) where T : struct, Enum
+    {
+        foreach (var field in typeof(T).GetFields())
+        {
+            var attribute = field.GetCustomAttribute<DescriptionAttribute>();
+            if (attribute != null && attribute.Description == description)
+                return (T)field.GetValue(null)!;
+
+            if (attribute == null && field.Name == description)
+                return (T)field.GetValue(null)!;
+        }
+
+        throw new ArgumentException("Not found");
     }
 }

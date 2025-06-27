@@ -11,4 +11,8 @@ public class RideDocument : DocumentBase
     public required string DriverGuid { get; set; }
     [StringLength(36, MinimumLength = 36)]
     public required string PassengerGuid { get; set; }
+
+    public required EventDocument Event { get; set; }
+    public required UserDocument Driver { get; set; }
+    public required UserDocument Passenger { get; set; }
 }

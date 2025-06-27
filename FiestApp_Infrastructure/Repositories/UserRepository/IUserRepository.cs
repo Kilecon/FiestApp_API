@@ -1,5 +1,8 @@
-﻿namespace FiestApp_Infrastructure.Repositories.UsersRepository;
+﻿using FiestApp_Infrastructure.Documents;
+using FiestApp_Infrastructure.Repositories.Base;
 
-public interface IUserRepository
+namespace FiestApp_Infrastructure.Repositories.UsersRepository;
+
+public interface IUserRepository : IRepository<UserDocument>
 {
 }

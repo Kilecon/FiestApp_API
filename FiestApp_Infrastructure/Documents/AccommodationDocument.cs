@@ -13,4 +13,8 @@ public class AccommodationDocument : DocumentBase
     public required string GuestGuid { get; set; }
     [StringLength(2, MinimumLength = 2)]
     public required string Status { get; set; }
+
+    public required EventDocument Event { get; set; }
+    public required UserDocument Host { get; set; }
+    public required UserDocument Guest { get; set; }
 }

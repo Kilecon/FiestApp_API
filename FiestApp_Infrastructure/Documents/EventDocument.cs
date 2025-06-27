@@ -12,5 +12,7 @@ public class EventDocument : DocumentBase
     public long Date { get; set; }
     [Key]
     [StringLength(36, MinimumLength = 36)]
-    public required string Creator { get; set; }
+    public required string CreatorGuid { get; set; }
+
+    public required UserDocument Creator { get; set; }
 }

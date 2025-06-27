@@ -1,0 +1,53 @@
+﻿using FiestApp_API.Dtos.UserDtos;
+using FiestApp_Domain.Entities;
+using FiestApp_Domain.Types;
+
+namespace FiestApp_API.Factories;
+
+public static class UserFactory
+{
+    public static UserDto ToDto(this UserEntity entity)
+    {
+        return new UserDto
+        {
+            Guid = entity.Guid,
+            Username = entity.Username.ToString(),
+            Gender = entity.Gender.ToString(),
+            Age = entity.Age,
+            Height = entity.Height,
+            Weight = entity.Weight,
+            AlcoholConsumption = entity.AlcoholConsumption.ToString()
+        };
+    }
+    public static LightUserDto ToLightDto(this UserEntity entity)
+    {
+        return new LightUserDto
+        {
+            Guid = entity.Guid,
+            Username = entity.Username.ToString(),
+        };
+    }
+
+    public static UserEntity FromDto(this UserDto dto)
+    {
+        return new UserEntity(
+            Enums.GetEnumValueFromDescription<Enums.Gender>(dto.Gender),
+            new Age(dto.Age),
+            new Height(dto.Height),
+            new Weight(dto.Weight),
+            Enums.GetEnumValueFromDescription<Enums.AlcoholConsumption>(dto.AlcoholConsumption)
+        )
+        {
+            Guid = new EntityId(dto.Guid),
+            Username = new Str50Formatted(dto.Username)
+        };
+    }
+    public static UserEntity FromDto(this LightUserDto dto)
+    {
+        return new UserEntity(null, new Age(null), new Height(null), new Weight(null), null)
+        {
+            Guid = new EntityId(dto.Guid),
+            Username = new Str50Formatted(dto.Username)
+        };
+    }
+}

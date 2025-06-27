@@ -11,4 +11,7 @@ public class DesignatedDriverDocument : DocumentBase
     public required string DriverGuid { get; set; }
     [StringLength(2, MinimumLength = 2)]
     public required string Status { get; set; }
+
+    public required EventDocument Event { get; set; }
+    public required UserDocument Driver { get; set; }
 }

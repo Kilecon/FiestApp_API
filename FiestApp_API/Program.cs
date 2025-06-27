@@ -1,4 +1,4 @@
-﻿using FiestApp_Infrastructure;
+﻿using FiestApp_Infrastructure.Context;
 using FiestApp_Infrastructure.Documents;
 using FiestApp_Infrastructure.Repositories.Base;
 using FiestApp_Infrastructure.Repositories.UsersRepository;
@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 namespace FiestApp_API
 {
     public class Program
@@ -18,6 +17,7 @@ namespace FiestApp_API
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Configuration.AddJsonFile("hot.json", optional: false, reloadOnChange: true);
+
 
             builder.Services.Configure<ApplicationDbContext>(builder.Configuration.GetSection("ConnectionStrings"));
 

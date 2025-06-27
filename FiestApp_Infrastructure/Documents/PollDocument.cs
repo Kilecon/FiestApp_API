@@ -11,4 +11,6 @@ public class PollDocument : DocumentBase
     public required string EventGuid { get; set; }
     [StringLength(2, MinimumLength = 2)]
     public required string Status { get; set; }
+
+    public required EventDocument Event { get; set; }
 }

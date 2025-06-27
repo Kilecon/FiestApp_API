@@ -3,11 +3,11 @@ using System.Linq.Expressions;
 
 namespace FiestApp_Infrastructure.Repositories.Base;
 
-public interface IRepository<T> : IReadOnlyAccessor<T> where T : DocumentBase
+public interface IRepository<T> : IReadOnlyAccessor<T> where T : IDocumentBase
 {
-    Task InsertAsync(T doc, CancellationToken cancellationToken = default);
+    Task<T?> InsertAsync(T doc, CancellationToken cancellationToken = default);
     Task<IEnumerable<T>> InsertManyAsync(IEnumerable<T> docs, CancellationToken cancellationToken = default);
-    Task UpdateAsync(T doc, CancellationToken cancellationToken = default);
+    Task<T?> UpdateAsync(T doc, CancellationToken cancellationToken = default);
     Task PartialUpdateAsync<TPartial>(TPartial partialDoc,
         CancellationToken cancellationToken = default) where TPartial : T;
     Task UpdateManyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
@@ -18,7 +18,7 @@ public interface IRepository<T> : IReadOnlyAccessor<T> where T : DocumentBase
     Task DeleteManyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
 }
 
-public interface IReadOnlyAccessor<T> where T : class
+public interface IReadOnlyAccessor<T> where T : IDocumentBase
 {
     Task<PagedResult<T>> GetPagedAsync(
         int pageNumber,
