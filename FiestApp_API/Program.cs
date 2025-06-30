@@ -2,7 +2,6 @@
 using FiestApp_Infrastructure.Documents;
 using FiestApp_Infrastructure.Repositories.Base;
 using FiestApp_Infrastructure.Repositories.UsersRepository;
-using FiestApp_Infrastructure.UnitsOfWork;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +15,7 @@ namespace FiestApp_API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Configuration.AddJsonFile("hot.json", optional: false, reloadOnChange: true);
+            builder.Configuration.AddJsonFile(@"hot.json", optional: false, reloadOnChange: true);
 
 
             builder.Services.Configure<ApplicationDbContext>(builder.Configuration.GetSection("ConnectionStrings"));
@@ -40,7 +39,7 @@ namespace FiestApp_API
             });
 
             // Injection des dépendances
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IRepository<UserDocument>, UserRepository>();
             // Ajoutez d'autres repositories ici
 
@@ -63,13 +62,10 @@ namespace FiestApp_API
             var app = builder.Build();
 
             // Configuration du pipeline HTTP
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
-            app.UseHttpsRedirection();
+
             app.UseCors("AllowAll");
             app.UseAuthorization();
             app.MapControllers();

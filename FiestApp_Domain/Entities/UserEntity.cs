@@ -12,10 +12,10 @@ public class UserEntity : EntityBase
     public Weight Weight { get; set; }
     public Enums.AlcoholConsumption? AlcoholConsumption { get; set; }
 
-    public UserEntity(Enums.Gender? biologicalGender, Age age,
+    public UserEntity(Enums.Gender? gender, Age age,
         Height height, Weight weight, Enums.AlcoholConsumption? alcoholConsumption)
     {
-        Gender = biologicalGender;
+        Gender = gender;
         Age = age;
         Height = height;
         Weight = weight;

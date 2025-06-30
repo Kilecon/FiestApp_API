@@ -2,12 +2,15 @@
 using FiestApp_Domain.Entities;
 using FiestApp_Domain.Types;
 
-namespace FiestApp_API.Factories;
+namespace FiestApp_Domain.Factories;
 
 public static class UserFactory
 {
-    public static UserDto ToDto(this UserEntity entity)
+    public static UserDto? ToDto(this UserEntity? entity)
     {
+        if (entity == null)
+            return null;
+
         return new UserDto
         {
             Guid = entity.Guid,
@@ -19,8 +22,11 @@ public static class UserFactory
             AlcoholConsumption = entity.AlcoholConsumption.ToString()
         };
     }
-    public static LightUserDto ToLightDto(this UserEntity entity)
+    public static LightUserDto? ToLightDto(this UserEntity? entity)
     {
+        if (entity == null)
+            return null;
+
         return new LightUserDto
         {
             Guid = entity.Guid,

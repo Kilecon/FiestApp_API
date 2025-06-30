@@ -19,4 +19,14 @@
     <ProjectReference Include="..\FiestApp_Infrastructure\FiestApp_Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Base\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="hot.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
