@@ -7,70 +7,94 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-namespace FiestApp_API
+using Microsoft.Extensions.Logging;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+
+namespace FiestApp_API;
+
+public class Program
 {
-    public class Program
+    private static void Main(string[] args)
     {
-        static void Main(string[] args)
+        var builder = WebApplication.CreateBuilder(args);
+        
+        const string appName = "FiestApp_API";
+
+        builder.Configuration.AddJsonFile(@"hot.json", false, true);
+
+
+        builder.Services.Configure<ApplicationDbContext>(builder.Configuration.GetSection("ConnectionStrings"));
+
+        // Configuration de la base de données
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {
-            var builder = WebApplication.CreateBuilder(args);
-
-            builder.Configuration.AddJsonFile(@"hot.json", optional: false, reloadOnChange: true);
-
-
-            builder.Services.Configure<ApplicationDbContext>(builder.Configuration.GetSection("ConnectionStrings"));
-
-            // Configuration de la base de données
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseNpgsql(connectionString, b =>
             {
-                options.UseNpgsql(connectionString, b =>
-                {
-                    b.MigrationsAssembly("FiestApp_API_Migrations");
-                    b.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
-                });
-
-                // Configuration pour le développement
-                if (builder.Environment.IsDevelopment())
-                {
-                    options.EnableSensitiveDataLogging();
-                    options.EnableDetailedErrors();
-                }
+                b.MigrationsAssembly("FiestApp_API_Migrations");
+                b.EnableRetryOnFailure(3, TimeSpan.FromSeconds(30), null);
             });
 
-            // Injection des dépendances
-            //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IRepository<UserDocument>, UserRepository>();
-            // Ajoutez d'autres repositories ici
-
-            // Configuration des services
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            // Configuration CORS si nécessaire
-            builder.Services.AddCors(options =>
+            // Configuration pour le développement
+            if (builder.Environment.IsDevelopment())
             {
-                options.AddPolicy("AllowAll", policy =>
-                {
-                    policy.AllowAnyOrigin()
-                          .AllowAnyMethod()
-                          .AllowAnyHeader();
-                });
+                options.EnableSensitiveDataLogging();
+                options.EnableDetailedErrors();
+            }
+        });
+
+        // Injection des dépendances
+        builder.Services.AddScoped<IRepository<UserDocument>, UserRepository>();
+        // Ajoutez d'autres repositories ici
+
+        // Configuration des services
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        // Configuration CORS si nécessaire
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
             });
+        });
 
-            var app = builder.Build();
+        builder.Logging.AddOpenTelemetry(options =>
+        {
+            options
+                .SetResourceBuilder(
+                    ResourceBuilder.CreateDefault()
+                        .AddService(appName))
+                .AddConsoleExporter();
+        });
 
-            // Configuration du pipeline HTTP
-            app.UseSwagger();
-            app.UseSwaggerUI();
+        builder.Services.AddOpenTelemetry()
+            .ConfigureResource(resource => resource.AddService(appName))
+            .WithTracing(tracing => tracing
+                .AddAspNetCoreInstrumentation()
+                .AddConsoleExporter())
+            .WithMetrics(metrics => metrics
+                .AddAspNetCoreInstrumentation()
+                .AddConsoleExporter());
+
+        var app = builder.Build();
+
+        // Configuration du pipeline HTTP
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
 
-            app.UseCors("AllowAll");
-            app.UseAuthorization();
-            app.MapControllers();
+        app.UseCors("AllowAll");
+        app.UseAuthorization();
+        app.MapControllers();
 
-            app.Run();
-        }
+        app.Run();
     }
 }
