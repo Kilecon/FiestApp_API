@@ -38,13 +38,10 @@ public class Program
                 b.EnableRetryOnFailure(3, TimeSpan.FromSeconds(30), null);
             });
 
-            // Configuration pour le développement
-            if (builder.Environment.IsDevelopment())
-            {
                 options.EnableSensitiveDataLogging();
                 options.EnableDetailedErrors();
-            }
-        });
+
+            });
 
         // Injection des dépendances
         builder.Services.AddScoped<IRepository<UserDocument>, UserRepository>();

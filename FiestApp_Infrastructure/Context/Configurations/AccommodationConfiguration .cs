@@ -8,17 +8,14 @@ public class AccommodationConfiguration : IEntityTypeConfiguration<Accommodation
 {
     public void Configure(EntityTypeBuilder<AccommodationDocument> builder)
     {
-        builder.ToTable("accommodations", t =>
-        {
-            t.HasCheckConstraint("CK_accommodations_status", "status IN ('PD', 'OK', 'KO')");
-        });
         builder.HasKey(a => a.Guid);
 
         builder.Property(a => a.Guid).HasColumnName("guid").HasMaxLength(36).IsRequired();
-        builder.Property(a => a.EventGuid).HasColumnName("event_guid").HasMaxLength(36);
-        builder.Property(a => a.HostGuid).HasColumnName("host_guid").HasMaxLength(36);
+        builder.Property(a => a.EventGuid).HasColumnName("event_guid").HasMaxLength(36).IsRequired();
+        builder.Property(a => a.HostGuid).HasColumnName("host_guid").HasMaxLength(36).IsRequired();
         builder.Property(a => a.GuestGuid).HasColumnName("guest_guid").HasMaxLength(36);
-        builder.Property(a => a.Status).HasColumnName("status").HasMaxLength(2);
+        builder.Property(r => r.Status).HasColumnName("status").HasMaxLength(2).IsRequired();
+        builder.Property(r => r.AvailableSlots).HasColumnName("avaliable_slots").IsRequired();
         builder.Property(a => a.CreatedAtUnixTimestamp).HasColumnName("created_at").IsRequired();
         builder.Property(a => a.UpdatedAtUnixTimestamp).HasColumnName("updated_at").IsRequired();
 

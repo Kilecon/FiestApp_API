@@ -12,9 +12,11 @@ public class RideConfiguration : IEntityTypeConfiguration<RideDocument>
         builder.HasKey(r => r.Guid);
 
         builder.Property(r => r.Guid).HasColumnName("guid").HasMaxLength(36).IsRequired();
-        builder.Property(r => r.EventGuid).HasColumnName("event_guid").HasMaxLength(36);
-        builder.Property(r => r.DriverGuid).HasColumnName("driver_guid").HasMaxLength(36);
+        builder.Property(r => r.EventGuid).HasColumnName("event_guid").HasMaxLength(36).IsRequired();
+        builder.Property(r => r.DriverGuid).HasColumnName("driver_guid").HasMaxLength(36).IsRequired();
         builder.Property(r => r.PassengerGuid).HasColumnName("passenger_guid").HasMaxLength(36);
+        builder.Property(r => r.AvailableSlots).HasColumnName("avaliable_slots").IsRequired().IsRequired();
+        builder.Property(r => r.Status).HasColumnName("status").HasMaxLength(2).IsRequired();
         builder.Property(r => r.CreatedAtUnixTimestamp).HasColumnName("created_at").IsRequired();
         builder.Property(r => r.UpdatedAtUnixTimestamp).HasColumnName("updated_at").IsRequired();
 

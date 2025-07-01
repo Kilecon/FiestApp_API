@@ -21,11 +21,11 @@ namespace FiestApp_Infrastructure.Context.Configurations
             builder.Property(u => u.LastLoginAtUnixTimestamp).HasColumnName("last_login_at_unix_timestamp").IsRequired();
             builder.Property(u => u.CreatedAtUnixTimestamp).HasColumnName("created_at").IsRequired();
             builder.Property(u => u.UpdatedAtUnixTimestamp).HasColumnName("updated_at").IsRequired();
-            builder.Property(u => u.Gender).HasColumnName("gender").HasMaxLength(2);
+            builder.Property(u => u.Gender).HasColumnName("gender").HasMaxLength(2).IsRequired();
             builder.Property(u => u.Age).HasColumnName("age");
             builder.Property(u => u.Height).HasColumnName("height");
             builder.Property(u => u.Weight).HasColumnName("weight");
-            builder.Property(u => u.AlcoholConsumption).HasColumnName("alcohol_consumption").HasMaxLength(2);
+            builder.Property(u => u.AlcoholConsumption).HasColumnName("alcohol_consumption").HasMaxLength(2).IsRequired();
         }
     }
 }

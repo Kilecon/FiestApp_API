@@ -64,11 +64,11 @@ public class UsersController : ControllerBase
         {
             Guid = entity.Guid,
             Username = entity.Username,
-            Gender = entity.Gender?.ToString(),
+            Gender = entity.Gender.ToString(),
             Age = entity.Age,
             Height = entity.Height,
             Weight = entity.Weight,
-            AlcoholConsumption = entity.AlcoholConsumption?.ToString()
+            AlcoholConsumption = entity.AlcoholConsumption.ToString()
         };
 
         var result = await _usersService.InsertAsync(doc, cancellationToken);
@@ -101,11 +101,11 @@ public class UsersController : ControllerBase
         {
             Guid = entity.Guid,
             Username = entity.Username,
-            Gender = entity.Gender?.ToString(),
+            Gender = entity.Gender.ToString(),
             Age = entity.Age,
             Height = entity.Height,
             Weight = entity.Weight,
-            AlcoholConsumption = entity.AlcoholConsumption?.ToString()
+            AlcoholConsumption = entity.AlcoholConsumption.ToString()
         };
 
         var result = await _usersService.UpdateAsync(doc, cancellationToken);

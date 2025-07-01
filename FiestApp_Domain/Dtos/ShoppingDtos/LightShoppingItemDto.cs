@@ -10,6 +10,8 @@ public class LightShoppingItemDto : BaseDto
     public required string Name { get; set; }
     [JsonPropertyName("quantity")]
     public int Quantity { get; set; }
+    [JsonPropertyName("icon_id")]
+    public required string IconId { get; set; }
     [JsonPropertyName("assigned_to")]
     public required LightUserDto AssignedTo { get; set; }
     [JsonPropertyName("is_bought")]

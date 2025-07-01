@@ -36,7 +36,6 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new ShoppingListConfiguration());
         modelBuilder.ApplyConfiguration(new ShoppingItemConfiguration());
         modelBuilder.ApplyConfiguration(new AccommodationConfiguration());
-        modelBuilder.ApplyConfiguration(new DesignatedDriverConfiguration());
         modelBuilder.ApplyConfiguration(new RideConfiguration());
         modelBuilder.ApplyConfiguration(new ExpenseConfiguration());
         modelBuilder.ApplyConfiguration(new ExpenseShareConfiguration());

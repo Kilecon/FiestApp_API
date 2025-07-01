@@ -53,7 +53,7 @@ public class UserFactory : IFactoryLightBase<UserEntity, UserDto, LightUserDto>
 
     public UserEntity FromLightDto(LightUserDto dto)
     {
-        return new UserEntity(null, new Age(null), new Height(null), new Weight(null), null)
+        return new UserEntity(Enums.Gender.Unknown, new Age(null), new Height(null), new Weight(null), Enums.AlcoholConsumption.Unknown)
         {
             Guid = new EntityId(dto.Guid),
             Username = new Str50Formatted(dto.Username)
