@@ -14,5 +14,5 @@ public interface IFactoryLightBase<TEntityBase, TDtoBase, TDtoLightBase>
 
     public TEntityBase FromDto(TDtoBase dto);
 
-    public TEntityBase FromDto(TDtoLightBase dto);
+    public TEntityBase FromLightDto(TDtoLightBase dto);
 }

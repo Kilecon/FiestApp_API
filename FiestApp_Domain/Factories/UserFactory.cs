@@ -51,7 +51,7 @@ public class UserFactory : IFactoryLightBase<UserEntity, UserDto, LightUserDto>
         };
     }
 
-    public UserEntity FromDto(LightUserDto dto)
+    public UserEntity FromLightDto(LightUserDto dto)
     {
         return new UserEntity(null, new Age(null), new Height(null), new Weight(null), null)
         {
