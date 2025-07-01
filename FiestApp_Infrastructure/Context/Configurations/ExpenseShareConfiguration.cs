@@ -17,8 +17,8 @@ public class ExpenseShareConfiguration : IEntityTypeConfiguration<ExpenseShareDo
         builder.Property(es => es.Guid).HasColumnName("guid").HasMaxLength(36).IsRequired();
         builder.Property(es => es.ExpenseGuid).HasColumnName("expense_guid").HasMaxLength(36);
         builder.Property(es => es.UserGuid).HasColumnName("user_guid").HasMaxLength(36);
-        builder.Property(es => es.Status).HasColumnName("status").HasMaxLength(2);
-        builder.Property(es => es.AmountSharedInCents).HasColumnName("share_amount_in_cents");
+        builder.Property(es => es.Status).HasColumnName("status").HasMaxLength(2).IsRequired();
+        builder.Property(es => es.AmountSharedInCents).HasColumnName("share_amount_in_cents").IsRequired();
         builder.Property(es => es.CreatedAtUnixTimestamp).HasColumnName("created_at").IsRequired();
         builder.Property(es => es.UpdatedAtUnixTimestamp).HasColumnName("updated_at").IsRequired();
 

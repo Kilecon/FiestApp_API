@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 namespace FiestApp_API
 {
     public class Program
@@ -30,12 +29,9 @@ namespace FiestApp_API
                     b.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
                 });
 
-                // Configuration pour le développement
-                if (builder.Environment.IsDevelopment())
-                {
-                    options.EnableSensitiveDataLogging();
-                    options.EnableDetailedErrors();
-                }
+                options.EnableSensitiveDataLogging();
+                options.EnableDetailedErrors();
+
             });
 
             // Injection des dépendances

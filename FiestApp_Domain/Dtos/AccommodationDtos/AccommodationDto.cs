@@ -12,5 +12,7 @@ public class AccommodationDto : StatuedDto
     [JsonPropertyName("host")]
     public required LightUserDto Host { get; set; }
     [JsonPropertyName("guest")]
-    public required LightUserDto Guest { get; set; }
+    public LightUserDto? Guest { get; set; }
+    [JsonPropertyName("available_slots")]
+    public int AvailableSlots { get; set; }
 }

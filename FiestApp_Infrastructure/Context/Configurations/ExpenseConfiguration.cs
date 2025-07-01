@@ -15,7 +15,7 @@ public class ExpenseConfiguration : IEntityTypeConfiguration<ExpenseDocument>
         builder.Property(e => e.EventGuid).HasColumnName("event_guid").HasMaxLength(36);
         builder.Property(e => e.PayerGuid).HasColumnName("payer_guid").HasMaxLength(36);
         builder.Property(e => e.Label).HasColumnName("label").HasMaxLength(255);
-        builder.Property(e => e.AmountInCents).HasColumnName("amount_in_cents");
+        builder.Property(e => e.AmountInCents).HasColumnName("amount_in_cents").IsRequired();
         builder.Property(e => e.CreatedAtUnixTimestamp).HasColumnName("created_at").IsRequired();
         builder.Property(e => e.UpdatedAtUnixTimestamp).HasColumnName("updated_at").IsRequired();
 

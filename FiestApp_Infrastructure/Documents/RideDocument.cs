@@ -10,9 +10,11 @@ public class RideDocument : DocumentBase
     [StringLength(36, MinimumLength = 36)]
     public required string DriverGuid { get; set; }
     [StringLength(36, MinimumLength = 36)]
-    public required string PassengerGuid { get; set; }
-
+    public int AvailableSlots { get; set; }
+    public string? PassengerGuid { get; set; }
+    [StringLength(2, MinimumLength = 2)]
+    public required string Status { get; set; }
     public required EventDocument Event { get; set; }
     public required UserDocument Driver { get; set; }
-    public required UserDocument Passenger { get; set; }
+    public UserDocument? Passenger { get; set; }
 }

@@ -14,7 +14,10 @@ public abstract class Enums
         Rejected,
 
         [Description("OK")]
-        Accepted
+        Accepted,
+
+        [Description("UN")]
+        Unknown
     }
 
     public enum Gender
@@ -27,8 +30,10 @@ public abstract class Enums
 
         [Description("OT")]
         Other,
+
         [Description("PR")]
         Private,
+
         [Description("UN")]
         Unknown
     }
@@ -37,6 +42,7 @@ public abstract class Enums
     {
         [Description("NE")]
         Never,
+
         [Description("OC")]
         Occasional,
 
@@ -45,24 +51,25 @@ public abstract class Enums
 
         [Description("VT")]
         Veteran,
+
         [Description("UN")]
         Unknown
     }
+
     public static string GetDescription(Enum value)
     {
         FieldInfo? fi = value.GetType().GetField(value.ToString());
+        var attributes = fi?.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
 
-        DescriptionAttribute[] attributes = (DescriptionAttribute[])fi!.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-        if (attributes is not null && attributes.Length > 0)
-            return attributes[0].Description;
-        else
-            return value.ToString();
+        return attributes?.Length > 0 ? attributes[0].Description : value.ToString();
     }
 
-    public static T? GetEnumValueFromDescription<T>(string? description) where T : struct, Enum
+    public static T GetEnumValueFromDescription<T>(string? description) where T : struct, Enum
     {
-        foreach (var field in typeof(T).GetFields())
+        if (description == null)
+            return GetDefaultEnumValue<T>();
+
+        foreach (var field in typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static))
         {
             var attribute = field.GetCustomAttribute<DescriptionAttribute>();
             if (attribute != null && attribute.Description == description)
@@ -71,7 +78,19 @@ public abstract class Enums
             if (attribute == null && field.Name == description)
                 return (T)field.GetValue(null)!;
         }
+        return GetDefaultEnumValue<T>();
+    }
 
-        return null;
+    private static T GetDefaultEnumValue<T>() where T : struct, Enum
+    {
+        foreach (var field in typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static))
+        {
+            var attr = field.GetCustomAttribute<DescriptionAttribute>();
+            if (attr?.Description == "UN" || field.Name == "Unknown")
+            {
+                return (T)field.GetValue(null)!;
+            }
+        }
+        return Enum.GetValues<T>().FirstOrDefault();
     }
 }

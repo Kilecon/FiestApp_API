@@ -14,7 +14,7 @@ public class ShoppingItemConfiguration : IEntityTypeConfiguration<ShoppingItemDo
         builder.Property(si => si.Guid).HasColumnName("guid").HasMaxLength(36).IsRequired();
         builder.Property(si => si.ShoppingListGuid).HasColumnName("list_guid").HasMaxLength(36);
         builder.Property(si => si.Name).HasColumnName("name").HasMaxLength(255).IsRequired();
-        builder.Property(si => si.Quantity).HasColumnName("quantity");
+        builder.Property(si => si.Quantity).HasColumnName("quantity").IsRequired();
         builder.Property(si => si.IconGuid).HasColumnName("icon_guid").HasMaxLength(36).IsRequired();
         builder.Property(si => si.AssignedToGuid).HasColumnName("assigned_to").HasMaxLength(36);
         builder.Property(si => si.IsBought).HasColumnName("is_bought").HasDefaultValue(false);

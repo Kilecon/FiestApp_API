@@ -9,7 +9,7 @@ public class UserDto : IBaseDto
     public required string Guid { get; set; }
     [JsonPropertyName("username")]
     public required string Username { get; set; }
-    [JsonPropertyName("biological_gender")]
+    [JsonPropertyName("gender")]
     public string? Gender { get; set; }
     [JsonPropertyName("age")]
     public int? Age { get; set; }
