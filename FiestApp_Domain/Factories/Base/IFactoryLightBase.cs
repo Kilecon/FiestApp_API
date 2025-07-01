@@ -1,4 +1,4 @@
-using FiestApp_API.Dtos.Base;
+using FiestApp_Domain.Dtos.Base;
 using FiestApp_Domain.Entities.Base;
 
 namespace FiestApp_Domain.Factories.Base;

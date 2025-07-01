@@ -1,6 +1,6 @@
-﻿using FiestApp_API.Dtos.UserDtos;
-using FiestApp_API.Response;
+﻿using FiestApp_API.Response;
 using FiestApp_API.Services.Users;
+using FiestApp_Domain.Dtos.UserDtos;
 using FiestApp_Domain.Factories;
 using FiestApp_Infrastructure.Documents;
 using Microsoft.AspNetCore.Mvc;

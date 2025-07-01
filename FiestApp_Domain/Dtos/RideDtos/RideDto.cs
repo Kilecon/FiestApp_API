@@ -1,9 +1,9 @@
-﻿using FiestApp_API.Dtos.Base;
-using FiestApp_API.Dtos.EventDtos;
-using FiestApp_API.Dtos.UserDtos;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using FiestApp_Domain.Dtos.Base;
+using FiestApp_Domain.Dtos.EventDtos;
+using FiestApp_Domain.Dtos.UserDtos;
 
-namespace FiestApp_API.Dtos.RideDtos;
+namespace FiestApp_Domain.Dtos.RideDtos;
 
 public class RideDto : BaseDto
 {

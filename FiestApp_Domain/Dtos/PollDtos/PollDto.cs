@@ -1,8 +1,8 @@
-﻿using FiestApp_API.Dtos.Base;
-using FiestApp_API.Dtos.EventDtos;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using FiestApp_Domain.Dtos.Base;
+using FiestApp_Domain.Dtos.EventDtos;
 
-namespace FiestApp_API.Dtos.PollDtos;
+namespace FiestApp_Domain.Dtos.PollDtos;
 public class PollDto : StatuedDto
 {
     [JsonPropertyName("event")]

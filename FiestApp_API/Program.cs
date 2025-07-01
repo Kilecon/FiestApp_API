@@ -1,7 +1,7 @@
 ﻿using FiestApp_Infrastructure.Context;
 using FiestApp_Infrastructure.Documents;
 using FiestApp_Infrastructure.Repositories.Base;
-using FiestApp_Infrastructure.Repositories.UsersRepository;
+using FiestApp_Infrastructure.Repositories.UserRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FiestApp_API.Dtos.Base;
+namespace FiestApp_Domain.Dtos.Base;
 
 public abstract class StatuedDto : BaseDto, IStatuedDto
 {

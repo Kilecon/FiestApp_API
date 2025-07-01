@@ -1,4 +1,4 @@
-﻿using FiestApp_API.Dtos.UserDtos;
+﻿using FiestApp_Domain.Dtos.UserDtos;
 using FiestApp_Domain.Entities;
 using FiestApp_Domain.Factories.Base;
 using FiestApp_Domain.Types;

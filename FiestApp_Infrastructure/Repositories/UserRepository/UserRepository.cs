@@ -2,7 +2,7 @@
 using FiestApp_Infrastructure.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace FiestApp_Infrastructure.Repositories.UsersRepository
+namespace FiestApp_Infrastructure.Repositories.UserRepository
 {
     public class UserRepository : RepositoryBase<UserDocument>, IUserRepository
     {

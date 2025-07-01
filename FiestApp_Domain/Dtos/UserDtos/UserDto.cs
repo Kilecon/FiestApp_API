@@ -1,7 +1,7 @@
-﻿using FiestApp_API.Dtos.Base;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using FiestApp_Domain.Dtos.Base;
 
-namespace FiestApp_API.Dtos.UserDtos;
+namespace FiestApp_Domain.Dtos.UserDtos;
 
 public class UserDto : IBaseDto
 {

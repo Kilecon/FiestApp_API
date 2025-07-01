@@ -1,5 +1,5 @@
-using FiestApp_API.Dtos.Base;
 using FiestApp_API.Response;
+using FiestApp_Domain.Dtos.Base;
 using FiestApp_Domain.Entities.Base;
 using FiestApp_Infrastructure.Documents.Base;
 using Microsoft.AspNetCore.Mvc;
