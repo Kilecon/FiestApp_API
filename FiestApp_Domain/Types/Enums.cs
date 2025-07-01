@@ -60,7 +60,7 @@ public abstract class Enums
             return value.ToString();
     }
 
-    public static T GetEnumValueFromDescription<T>(string? description) where T : struct, Enum
+    public static T? GetEnumValueFromDescription<T>(string? description) where T : struct, Enum
     {
         foreach (var field in typeof(T).GetFields())
         {
@@ -72,6 +72,6 @@ public abstract class Enums
                 return (T)field.GetValue(null)!;
         }
 
-        throw new ArgumentException("Not found");
+        return null;
     }
 }

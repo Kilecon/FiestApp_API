@@ -11,6 +11,8 @@ public class ShoppingItemDocument : DocumentBase
     public required string Name { get; set; }
     public short Quantity { get; set; }
     [StringLength(36, MinimumLength = 36)]
+    public required string IconGuid { get; set; }
+    [StringLength(36, MinimumLength = 36)]
     public required string AssignedToGuid { get; set; }
     public bool IsBought { get; set; }
 
