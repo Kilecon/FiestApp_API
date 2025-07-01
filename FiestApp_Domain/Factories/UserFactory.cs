@@ -1,12 +1,13 @@
 ﻿using FiestApp_API.Dtos.UserDtos;
 using FiestApp_Domain.Entities;
+using FiestApp_Domain.Factories.Base;
 using FiestApp_Domain.Types;
 
 namespace FiestApp_Domain.Factories;
 
-public static class UserFactory
+public class UserFactory : IFactoryLightBase<UserEntity, UserDto, LightUserDto>
 {
-    public static UserDto? ToDto(this UserEntity? entity)
+    public UserDto? ToDto(UserEntity? entity)
     {
         if (entity == null)
             return null;
@@ -22,7 +23,8 @@ public static class UserFactory
             AlcoholConsumption = entity.AlcoholConsumption.ToString()
         };
     }
-    public static LightUserDto? ToLightDto(this UserEntity? entity)
+
+    public LightUserDto? ToLightDto(UserEntity? entity)
     {
         if (entity == null)
             return null;
@@ -30,11 +32,11 @@ public static class UserFactory
         return new LightUserDto
         {
             Guid = entity.Guid,
-            Username = entity.Username.ToString(),
+            Username = entity.Username.ToString()
         };
     }
 
-    public static UserEntity FromDto(this UserDto dto)
+    public UserEntity FromDto(UserDto dto)
     {
         return new UserEntity(
             Enums.GetEnumValueFromDescription<Enums.Gender>(dto.Gender),
@@ -48,7 +50,8 @@ public static class UserFactory
             Username = new Str50Formatted(dto.Username)
         };
     }
-    public static UserEntity FromDto(this LightUserDto dto)
+
+    public UserEntity FromDto(LightUserDto dto)
     {
         return new UserEntity(null, new Age(null), new Height(null), new Weight(null), null)
         {
