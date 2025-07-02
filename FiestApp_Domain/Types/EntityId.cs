@@ -4,7 +4,7 @@ public sealed class EntityId
 {
     private readonly string _value;
 
-    public EntityId(string value)
+    public EntityId(string? value)
     {
         if (!Guid.TryParse(value, out var guid))
             throw new ArgumentException("Invalid GUID format.");
