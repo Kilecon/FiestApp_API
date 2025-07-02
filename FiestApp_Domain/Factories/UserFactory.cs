@@ -17,54 +17,88 @@ public class UserFactory(ILogger<UserFactory> logger) : IFactoryLightBase<UserEn
             return null;
         }
 
-        return new UserDto
+        try
         {
-            Guid = entity.Guid,
-            Username = entity.Username.ToString(),
-            Gender = entity.Gender.ToString(),
-            Age = entity.Age,
-            Height = entity.Height,
-            Weight = entity.Weight,
-            AlcoholConsumption = entity.AlcoholConsumption.ToString()
-        };
+            return new UserDto
+            {
+                Guid = entity.Guid,
+                Username = entity.Username.ToString(),
+                Gender = entity.Gender.ToString(),
+                Age = entity.Age,
+                Height = entity.Height,
+                Weight = entity.Weight,
+                AlcoholConsumption = entity.AlcoholConsumption.ToString()
+            };
+        }
+        catch (Exception e)
+        {
+            FactoryLogs.ToDtoError(logger, e);
+        }
+
+        return null;
     }
 
     public LightUserDto? ToLightDto(UserEntity? entity)
     {
-        if (entity == null)
+        try
         {
-            FactoryLogs.ToLightDtoWarning(logger);
-            return null;
+            if (entity == null)
+            {
+                FactoryLogs.ToLightDtoWarning(logger);
+                return null;
+            }
+
+            return new LightUserDto
+            {
+                Guid = entity.Guid,
+                Username = entity.Username.ToString()
+            };
+        }
+        catch (Exception e)
+        {
+            FactoryLogs.ToLightDtoError(logger, e);
         }
 
-        return new LightUserDto
-        {
-            Guid = entity.Guid,
-            Username = entity.Username.ToString()
-        };
+        return null;
     }
 
     public UserEntity FromDto(UserDto dto)
     {
-        return new UserEntity(
-            Enums.GetEnumValueFromDescription<Enums.Gender>(dto.Gender),
-            new Age(dto.Age),
-            new Height(dto.Height),
-            new Weight(dto.Weight),
-            Enums.GetEnumValueFromDescription<Enums.AlcoholConsumption>(dto.AlcoholConsumption)
-        )
+        try
         {
-            Guid = new EntityId(dto.Guid),
-            Username = new Str50Formatted(dto.Username)
-        };
+            return new UserEntity(
+                Enums.GetEnumValueFromDescription<Enums.Gender>(dto.Gender),
+                new Age(dto.Age),
+                new Height(dto.Height),
+                new Weight(dto.Weight),
+                Enums.GetEnumValueFromDescription<Enums.AlcoholConsumption>(dto.AlcoholConsumption)
+            )
+            {
+                Guid = new EntityId(dto.Guid),
+                Username = new Str50Formatted(dto.Username)
+            };
+        }
+        catch (Exception e)
+        {
+            FactoryLogs.FromDtoError(logger, e);
+            throw;
+        }
     }
 
     public UserEntity FromLightDto(LightUserDto dto)
     {
-        return new UserEntity(null, new Age(null), new Height(null), new Weight(null), null)
+        try
         {
-            Guid = new EntityId(dto.Guid),
-            Username = new Str50Formatted(dto.Username)
-        };
+            return new UserEntity(null, new Age(null), new Height(null), new Weight(null), null)
+            {
+                Guid = new EntityId(dto.Guid),
+                Username = new Str50Formatted(dto.Username)
+            };
+        }
+        catch (Exception e)
+        {
+            FactoryLogs.FromLightDtoError(logger, e);
+            throw;
+        }
     }
 }

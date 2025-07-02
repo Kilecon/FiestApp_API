@@ -5,59 +5,46 @@ namespace FiestApp_Domain.Types;
 
 public abstract class Enums
 {
-    public enum Status
+    public enum AlcoholConsumption
     {
-        [Description("PD")]
-        Pending,
+        [Description("NE")] Never,
+        [Description("OC")] Occasional,
 
-        [Description("KO")]
-        Rejected,
+        [Description("RG")] Regular,
 
-        [Description("OK")]
-        Accepted
+        [Description("VT")] Veteran,
+        [Description("UN")] Unknown
     }
 
     public enum Gender
     {
-        [Description("M")]
-        Male,
+        [Description("M")] Male,
 
-        [Description("F")]
-        Female,
+        [Description("F")] Female,
 
-        [Description("OT")]
-        Other,
-        [Description("PR")]
-        Private,
-        [Description("UN")]
-        Unknown
+        [Description("OT")] Other,
+        [Description("PR")] Private,
+        [Description("UN")] Unknown
     }
 
-    public enum AlcoholConsumption
+    public enum Status
     {
-        [Description("NE")]
-        Never,
-        [Description("OC")]
-        Occasional,
+        [Description("PD")] Pending,
 
-        [Description("RG")]
-        Regular,
+        [Description("KO")] Rejected,
 
-        [Description("VT")]
-        Veteran,
-        [Description("UN")]
-        Unknown
+        [Description("OK")] Accepted
     }
+
     public static string GetDescription(Enum value)
     {
-        FieldInfo? fi = value.GetType().GetField(value.ToString());
+        var fi = value.GetType().GetField(value.ToString());
 
-        DescriptionAttribute[] attributes = (DescriptionAttribute[])fi!.GetCustomAttributes(typeof(DescriptionAttribute), false);
+        var attributes = (DescriptionAttribute[])fi!.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-        if (attributes is not null && attributes.Length > 0)
+        if (attributes.Length > 0)
             return attributes[0].Description;
-        else
-            return value.ToString();
+        return value.ToString();
     }
 
     public static T GetEnumValueFromDescription<T>(string? description) where T : struct, Enum
