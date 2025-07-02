@@ -1,69 +1,26 @@
-﻿using FiestApp_API.Services.Base;
+﻿using FiestApp_API.Logging;
+using FiestApp_API.Services.Base;
 using FiestApp_Domain.Entities;
 using FiestApp_Domain.Types;
 using FiestApp_Infrastructure.Documents;
 using FiestApp_Infrastructure.Repositories.Base;
+using Microsoft.Extensions.Logging;
 
 namespace FiestApp_API.Services.Users;
 
-public class UsersService : IService<UserDocument, UserEntity>
+public class UsersService(IRepository<UserDocument> repository, ILogger<UsersService> logger)
+    : IService<UserDocument, UserEntity>
 {
-    protected readonly IRepository<UserDocument> _repository;
-
-    public UsersService(IRepository<UserDocument> repository)
-    {
-        _repository = repository;
-    }
-    private UserEntity? ToEntity(UserDocument? doc)
-    {
-        try
-        {
-            return new UserEntity(
-            Enums.GetEnumValueFromDescription<Enums.Gender>(doc?.Gender),
-            new Age(doc?.Age),
-            new Height(doc?.Height),
-            new Weight(doc?.Weight),
-            Enums.GetEnumValueFromDescription<Enums.AlcoholConsumption>(doc?.AlcoholConsumption)
-        )
-            { Guid = new EntityId(doc?.Guid ?? ""), Username = new Str50Formatted(doc?.Username ?? "") };
-        }
-        catch (Exception ex)
-        {
-            //log
-        }
-        return null;
-    }
-    private UserDocument? ToDocument(UserEntity entity)
-    {
-        try
-        {
-            return new UserDocument()
-            {
-                Gender = entity.Gender.ToString(),
-                Age = entity.Age,
-                Height = entity.Height,
-                Weight = entity.Weight,
-                AlcoholConsumption = entity.AlcoholConsumption.ToString(),
-                Guid = entity.Guid,
-                Username = entity.Username
-            };
-        }
-        catch (Exception ex)
-        {
-            //log
-        }
-        return null;
-    }
     public virtual async Task<UserEntity?> GetByIdAsync(string id, CancellationToken cancellationToken = default)
     {
-        var res = await _repository.GetByIdAsync(id, cancellationToken);
+        var res = await repository.GetByIdAsync(id, cancellationToken);
         return ToEntity(res);
     }
 
     public virtual async Task<IEnumerable<UserEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
 #pragma warning disable CS0618
-        var result = await _repository.GetAllAsync(cancellationToken);
+        var result = await repository.GetAllAsync(cancellationToken);
         var entities = new List<UserEntity>();
         try
         {
@@ -76,60 +33,104 @@ public class UsersService : IService<UserDocument, UserEntity>
         }
         catch (Exception ex)
         {
-            //log
+            ServiceLogs.GetAllAsyncError(logger, ex);
         }
+
         return entities;
 #pragma warning restore CS0618
     }
 
-    public virtual async Task<UserEntity?> InsertAsync(UserDocument entity, CancellationToken cancellationToken = default)
+    public virtual async Task<UserEntity?> InsertAsync(UserDocument entity,
+        CancellationToken cancellationToken = default)
     {
-        var result = await _repository.InsertAsync(entity, cancellationToken);
+        var result = await repository.InsertAsync(entity, cancellationToken);
         return ToEntity(result);
     }
 
-    public virtual async Task<IEnumerable<UserEntity?>> InsertManyAsync(IEnumerable<UserEntity> entities, CancellationToken cancellationToken = default)
+    public virtual async Task<IEnumerable<UserEntity?>> InsertManyAsync(IEnumerable<UserEntity> entities,
+        CancellationToken cancellationToken = default)
     {
-        var docs = new List<UserDocument>();
         try
         {
+            var docs = new List<UserDocument>();
             foreach (var entity in entities)
             {
                 var doc = ToDocument(entity);
                 if (doc is not null)
                     docs.Add(doc);
             }
-        }
-        catch (Exception ex)
-        {
-            //log
-        }
-        var res = await _repository.InsertManyAsync(docs, cancellationToken);
-        var result = new List<UserEntity>();
-        try
-        {
+
+            var res = await repository.InsertManyAsync(docs, cancellationToken);
+            var result = new List<UserEntity>();
             foreach (var doc in docs)
             {
                 var ent = ToEntity(doc);
                 if (ent is not null)
                     result.Add(ent);
             }
+
+            return result;
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            //log
+            ServiceLogs.InsertManyAsyncError(logger, e);
+            return new List<UserEntity>();
         }
-        return result;
     }
 
-    public virtual async Task<UserEntity?> UpdateAsync(UserDocument entity, CancellationToken cancellationToken = default)
+    public virtual async Task<UserEntity?> UpdateAsync(UserDocument entity,
+        CancellationToken cancellationToken = default)
     {
-        var result = await _repository.UpdateAsync(entity, cancellationToken);
+        var result = await repository.UpdateAsync(entity, cancellationToken);
         return ToEntity(result);
     }
 
     public virtual async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
     {
-        await _repository.DeleteByIdAsync(id, cancellationToken);
+        await repository.DeleteByIdAsync(id, cancellationToken);
+    }
+
+    private UserEntity? ToEntity(UserDocument? doc)
+    {
+        try
+        {
+            return new UserEntity(
+                    Enums.GetEnumValueFromDescription<Enums.Gender>(doc?.Gender),
+                    new Age(doc?.Age),
+                    new Height(doc?.Height),
+                    new Weight(doc?.Weight),
+                    Enums.GetEnumValueFromDescription<Enums.AlcoholConsumption>(doc?.AlcoholConsumption)
+                )
+                { Guid = new EntityId(doc?.Guid ?? ""), Username = new Str50Formatted(doc?.Username ?? "") };
+        }
+        catch (Exception ex)
+        {
+            ServiceLogs.ToEntityError(logger, ex);
+        }
+
+        return null;
+    }
+
+    private UserDocument? ToDocument(UserEntity entity)
+    {
+        try
+        {
+            return new UserDocument
+            {
+                Gender = entity.Gender.ToString(),
+                Age = entity.Age,
+                Height = entity.Height,
+                Weight = entity.Weight,
+                AlcoholConsumption = entity.AlcoholConsumption.ToString(),
+                Guid = entity.Guid,
+                Username = entity.Username
+            };
+        }
+        catch (Exception ex)
+        {
+            ServiceLogs.ToDocumentError(logger, ex);
+        }
+
+        return null;
     }
 }

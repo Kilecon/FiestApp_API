@@ -1,13 +1,13 @@
 ﻿using FiestApp_Infrastructure.Documents;
 using FiestApp_Infrastructure.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
-namespace FiestApp_Infrastructure.Repositories.UserRepository
+namespace FiestApp_Infrastructure.Repositories.UserRepository;
+
+public class UserRepository : RepositoryBase<UserDocument>, IUserRepository
 {
-    public class UserRepository : RepositoryBase<UserDocument>, IUserRepository
+    public UserRepository(DbContext context, ILogger<UserRepository> logger) : base(context, logger)
     {
-        public UserRepository(DbContext context) : base(context)
-        {
-        }
     }
 }
