@@ -93,47 +93,71 @@ public abstract class RepositoryBase<T>(DbContext context, ILogger<RepositoryBas
 
     public virtual async Task<T?> InsertAsync(T doc, CancellationToken cancellationToken = default)
     {
-        if (doc == null)
-            throw new ArgumentNullException(nameof(doc));
+        try
+        {
+            if (doc == null)
+                throw new ArgumentNullException(nameof(doc));
 
-        doc.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        doc.UpdatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            doc.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            doc.UpdatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-        await _dbSet.AddAsync(doc, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-        return await _dbSet.FindAsync([doc.Guid], cancellationToken);
+            await _dbSet.AddAsync(doc, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return await _dbSet.FindAsync([doc.Guid], cancellationToken);
+        }
+        catch (ArgumentNullException e)
+        {
+            RepoLogs.InsertAsyncError(logger, e);
+            return null;
+        }
     }
 
     public virtual async Task<IEnumerable<T>> InsertManyAsync(IEnumerable<T> docs,
         CancellationToken cancellationToken = default)
     {
-        if (docs == null)
-            throw new ArgumentNullException(nameof(docs));
-
-        var documentBases = docs.ToList();
-        foreach (var doc in documentBases)
+        try
         {
-            doc.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            doc.UpdatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            if (docs == null)
+                throw new ArgumentNullException(nameof(docs));
+
+            var documentBases = docs.ToList();
+            foreach (var doc in documentBases)
+            {
+                doc.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                doc.UpdatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            }
+
+            var docList = documentBases.ToList();
+
+            await _dbSet.AddRangeAsync(docList, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return docList;
         }
-
-        var docList = documentBases.ToList();
-
-        await _dbSet.AddRangeAsync(docList, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-        return docList;
+        catch (ArgumentNullException e)
+        {
+            RepoLogs.InsertManyAsyncError(logger, e);
+            return [];
+        }
     }
 
     public virtual async Task<T?> UpdateAsync(T doc, CancellationToken cancellationToken = default)
     {
-        if (doc == null)
-            throw new ArgumentNullException(nameof(doc));
+        try
+        {
+            if (doc == null)
+                throw new ArgumentNullException(nameof(doc));
 
-        doc.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            doc.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-        _dbSet.Update(doc);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-        return await _dbSet.FindAsync([doc.Guid], cancellationToken);
+            _dbSet.Update(doc);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return await _dbSet.FindAsync([doc.Guid], cancellationToken);
+        }
+        catch (ArgumentNullException e)
+        {
+            RepoLogs.UpdateAsyncError(logger, e);
+            return null;
+        }
     }
 
     public async Task PartialUpdateAsync<TPartial>(TPartial partialDoc,
@@ -248,12 +272,19 @@ public abstract class RepositoryBase<T>(DbContext context, ILogger<RepositoryBas
     public virtual async Task UpdateManyAsync(Expression<Func<T, bool>> predicate,
         CancellationToken cancellationToken = default)
     {
-        var docs = await _dbSet.Where(predicate).ToListAsync(cancellationToken);
-        if (docs.Count != 0)
+        try
         {
-            foreach (var doc in docs) doc.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            _dbSet.UpdateRange(docs);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            var docs = await _dbSet.Where(predicate).ToListAsync(cancellationToken);
+            if (docs.Count != 0)
+            {
+                foreach (var doc in docs) doc.CreatedAtUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                _dbSet.UpdateRange(docs);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+        }
+        catch (Exception e)
+        {
+            RepoLogs.UpdateManyAsyncError(logger, e);
         }
     }
 
@@ -275,22 +306,36 @@ public abstract class RepositoryBase<T>(DbContext context, ILogger<RepositoryBas
 
     public virtual async Task DeleteByIdAsync(string guid, CancellationToken cancellationToken = default)
     {
-        var doc = await GetByIdAsync(guid, cancellationToken);
-        if (doc != null)
+        try
         {
-            _dbSet.Remove(doc);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            var doc = await GetByIdAsync(guid, cancellationToken);
+            if (doc != null)
+            {
+                _dbSet.Remove(doc);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+        }
+        catch (Exception e)
+        {
+            RepoLogs.DeleteByIdAsyncError(logger, e);
         }
     }
 
     public virtual async Task DeleteManyAsync(Expression<Func<T, bool>> predicate,
         CancellationToken cancellationToken = default)
     {
-        var docs = await _dbSet.Where(predicate).ToListAsync(cancellationToken);
-        if (docs.Count != 0)
+        try
         {
-            _dbSet.RemoveRange(docs);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            var docs = await _dbSet.Where(predicate).ToListAsync(cancellationToken);
+            if (docs.Count != 0)
+            {
+                _dbSet.RemoveRange(docs);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+        }
+        catch (Exception e)
+        {
+            RepoLogs.DeleteManyAsyncError(logger, e);
         }
     }
 

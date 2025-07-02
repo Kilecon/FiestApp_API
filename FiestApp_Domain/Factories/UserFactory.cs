@@ -1,6 +1,7 @@
 ﻿using FiestApp_Domain.Dtos.UserDtos;
 using FiestApp_Domain.Entities;
 using FiestApp_Domain.Factories.Base;
+using FiestApp_Domain.Logging;
 using FiestApp_Domain.Types;
 using Microsoft.Extensions.Logging;
 
@@ -12,7 +13,7 @@ public class UserFactory(ILogger<UserFactory> logger) : IFactoryLightBase<UserEn
     {
         if (entity == null)
         {
-            logger.LogWarning("Attempted to convert null UserEntity to UserDto.");
+            FactoryLogs.ToDtoWarning(logger);
             return null;
         }
 
@@ -32,7 +33,7 @@ public class UserFactory(ILogger<UserFactory> logger) : IFactoryLightBase<UserEn
     {
         if (entity == null)
         {
-            logger.LogWarning("Attempted to convert null UserEntity to LightUserDto.");
+            FactoryLogs.ToLightDtoWarning(logger);
             return null;
         }
 
